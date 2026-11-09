@@ -1,6 +1,6 @@
 # DC El Destape - Licores 🍷📦
 
-Aplicación web progresiva (PWA) ejecutiva para la gestión integral de **Inventario**, **Compras**, **Punto de Venta (POS)**, **Apartados**, **Clientes y Fidelidad**, y **Sincronización con Google Sheets**.
+Aplicación web progresiva (PWA) ejecutiva para la gestión integral de **Inventario**, **Compras**, **Punto de Venta (POS)**, **Apartados**, **Clientes y Fidelidad**, y **Sincronización en la Nube**.
 
 Desarrollada para **Carlos y Daniel (DC)** con una arquitectura **Offline-First**, soporte bimonetario (USD / CRC) y conexión en tiempo real con la aplicación de preventa en ruta.
 
@@ -86,21 +86,16 @@ Desarrollada para **Carlos y Daniel (DC)** con una arquitectura **Offline-First*
                 │        REST API Sync         │
                 ▼                              ▼
 ┌─────────────────────────────────────────────────────────────┐
-│                 google_apps_script.gs                       │
-│        (Backend Serverless en Google Cloud / Apps Script)   │
-└──────────────────────────────┬──────────────────────────────┘
-                               │
-                               ▼
-┌─────────────────────────────────────────────────────────────┐
-│                 Google Sheets Database                      │
-│   • Productos  • Compras  • Ventas  • Apartados  • Clientes  │
+│                   Backend Serverless                        │
+│                 (API REST & Base de Datos)                  │
+│   • Productos  • Compras  • Ventas  • Apartados  • Clientes │
 └─────────────────────────────────────────────────────────────┘
 ```
 
 - **Frontend:** Vanilla JavaScript modular y optimizado, HTML5 semántico, Tailwind CSS (CDN) e iconos Lucide.
 - **Persistencia Local:** `localStorage` para almacenamiento inmediato ultrarrápido y cache offline.
 - **Sincronización:** Cola de eventos offline-first (`encolarAccionSincronizacion`) que reintenta automáticamente cualquier acción cuando se recupera la conexión a internet.
-- **Backend:** Google Apps Script (`google_apps_script.gs`) expuesto vía `doPost` / `doGet` para lectura y escritura atómica en la hoja de cálculo.
+- **Backend:** API REST Serverless expuesta para lectura y sincronización atómica de datos.
 - **PWA:** `sw.js` (Service Worker) y `manifest.json` para instalación en computadoras de escritorio, tablets y teléfonos móviles.
 
 ---
@@ -115,7 +110,7 @@ inventory-sheets-app/
 ├── sw.js                        # Service Worker para funcionamiento Offline y caché PWA
 ├── manifest.json                # Manifiesto de la Progressive Web App (PWA)
 ├── logo.png                     # Logotipo oficial de DC El Destape
-├── google_apps_script.gs        # Código backend de Apps Script para Google Sheets
+├── google_apps_script.gs        # Backend de sincronización y persistencia de datos
 ├── .gitignore                   # Exclusión de temporales y archivos del sistema
 └── README.md                    # Este documento
 ```
@@ -128,10 +123,9 @@ inventory-sheets-app/
    - Puedes abrir `index.html` directamente en cualquier navegador moderno (Google Chrome, Microsoft Edge, Brave).
    - O ejecutar un servidor HTTP simple (por ejemplo `npx serve` o la extensión Live Server de VS Code).
 
-2. **Configuración de Google Sheets:**
-   - En el archivo `google_apps_script.gs`, configurar las constantes de las pestañas (`PRODUCTOS`, `COMPRAS`, `VENTAS`, `APARTADOS`, `ABONOS_APARTADOS`, `CLIENTES`).
-   - Implementar como Aplicación Web (*Web App*) con acceso para *Cualquier usuario (Anyone)*.
-   - Colocar la URL resultante en la configuración de la aplicación (`state.config.scriptUrl`).
+2. **Configuración del Backend:**
+   - Desplegar el script de backend como Aplicación Web (*Web App*).
+   - Colocar la URL del endpoint en la configuración de la aplicación (`state.config.scriptUrl`).
 
 ---
 
